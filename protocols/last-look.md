@@ -1,3 +1,5 @@
+# Last Look
+
 In Last Look, clients are signers and servers are senders.
 
 1. Client connects to server via WebSocket and subcribes to pricing.
@@ -5,13 +7,13 @@ In Last Look, clients are signers and servers are senders.
 3. Client sends a signed order to server for consideration.
 4. Server has "last look" and the option to take the order.
 
-# Methods: Server
+## Methods: Server
 
-## `subscribe`
+### `subscribe`
 
 Client subscribes to pricing updates for a list of token pairs. Returns current formula or levels for each pair.
 
-```TypeScript
+```typescript
 subscribe([
   {
     baseToken: string,
@@ -20,11 +22,11 @@ subscribe([
 ]): [ Levels | Formula ]
 ```
 
-## `unsubscribe`
+### `unsubscribe`
 
 Client unsubscribes from pricing updates for a list of token pairs. Returns a boolean.
 
-```TypeScript
+```typescript
 unsubscribe([
   {
     baseToken: string,
@@ -33,11 +35,11 @@ unsubscribe([
 ]): boolean
 ```
 
-## `consider`
+### `consider`
 
 Client provides a priced order to the server. If the server has set a `senderServer` this method is to be called on that URL via JSON-RPC over HTTP. Returns the transaction ID if accepted by the server.
 
-```TypeScript
+```typescript
 consider({
   nonce: string,
   expiry: string,
@@ -52,13 +54,13 @@ consider({
 }): string
 ```
 
-# Methods: Client
+## Methods: Client
 
-## `initialize`
+### `initialize`
 
 Server provides values for the `swapContract` the it intends to use, the `senderWallet` it intends to use, and optionally a `senderServer` if the server is not receiving `consider` calls over the socket and instead an alternative JSON-RPC over HTTP endpoint. Returns no result.
 
-```TypeScript
+```typescript
 initialize({
   swapContract: string, // Swap contract intended for use.
   senderWallet: string, // Sender (server) wallet intended for use.
@@ -66,11 +68,11 @@ initialize({
 })
 ```
 
-## `update`
+### `update`
 
 Server updates prices for a token pair. Returns no result.
 
-```TypeScript
+```typescript
 update([
   {
     baseToken: string,
@@ -82,15 +84,15 @@ update([
 ])
 ```
 
-# Pricing
+## Pricing
 
 Server pricing can be communicated either by levels or a formula. All input and output values for pricing are in base units rather than atomic units. When generating orders, all values must be converted to atomic units.
 
-## Levels
+### Levels
 
 The server can specify levels to use for pricing. Each level is a tuple of amount and price at that level.
 
-```
+```text
 [{
   "baseToken": "0xdac17f958d2ee523a2206206994597c13d831ec7",  // USDT
   "quoteToken": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2", // WETH
@@ -104,25 +106,21 @@ The server can specify levels to use for pricing. Each level is a tuple of amoun
 }]
 ```
 
-### Scenarios
+#### Scenarios
 
-**Client wants to swap `1000` USDT into WETH.**
-Client looks up baseToken USDT and quoteToken WETH and uses the `bid` levels above. The first `100` would be multiplied by `0.00053` and second `900` would be multiplied by `0.00061` for a total of `0.602` WETH.
+**Client wants to swap `1000` USDT into WETH.** Client looks up baseToken USDT and quoteToken WETH and uses the `bid` levels above. The first `100` would be multiplied by `0.00053` and second `900` would be multiplied by `0.00061` for a total of `0.602` WETH.
 
-**Client wants to swap `1` WETH into USDT.**
-Client looks up baseToken WETH and quoteToken USDT and uses the `bid` levels above. The first `0.5` would be multiplied by `2000` and second `0.5` would be multiplied by `2010` for a total of `2005` USDT.
+**Client wants to swap `1` WETH into USDT.** Client looks up baseToken WETH and quoteToken USDT and uses the `bid` levels above. The first `0.5` would be multiplied by `2000` and second `0.5` would be multiplied by `2010` for a total of `2005` USDT.
 
-**Client wants to swap WETH into `1000` USDT.**
-Client looks up baseToken USDT and quoteToken WETH and uses the `ask` levels above. The first `100` would be multiplied by `0.00055` and second 90 would be multiplied by `0.00067` for a total of `0.658` WETH.
+**Client wants to swap WETH into `1000` USDT.** Client looks up baseToken USDT and quoteToken WETH and uses the `ask` levels above. The first `100` would be multiplied by `0.00055` and second 90 would be multiplied by `0.00067` for a total of `0.658` WETH.
 
-**Client wants to swap USDT into `1` WETH.**
-Client looks up baseToken WETH and quoteToken USDT and uses the `ask` levels above. The first `0.5` would be multiplied by `2001` and second 90 would be multiplied by `2015` for a total WETH amount of `2008` USDT.
+**Client wants to swap USDT into `1` WETH.** Client looks up baseToken WETH and quoteToken USDT and uses the `ask` levels above. The first `0.5` would be multiplied by `2001` and second 90 would be multiplied by `2015` for a total WETH amount of `2008` USDT.
 
-## Formula
+### Formula
 
 The server can specify formulas to use for pricing. Each formula is an expression with operations including addition, subtraction, multiplication, and division, where `x` is provided by the client.
 
-```
+```text
 [{
   "baseToken": "0xdac17f958d2ee523a2206206994597c13d831ec7",  // USDT
   "quoteToken": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2", // WETH
@@ -136,25 +134,21 @@ The server can specify formulas to use for pricing. Each formula is an expressio
 }]
 ```
 
-### Scenarios
+#### Scenarios
 
-**Client wants to swap `1000` USDT into WETH.**
-Client looks up baseToken USDT and quoteToken WETH and uses the `bid` levels above. `1000` is multiplied by `0.00053` for a total of `0.53` WETH.
+**Client wants to swap `1000` USDT into WETH.** Client looks up baseToken USDT and quoteToken WETH and uses the `bid` levels above. `1000` is multiplied by `0.00053` for a total of `0.53` WETH.
 
-**Client wants to swap `1` WETH into USDT.**
-Client looks up baseToken WETH and quoteToken USDT and uses the `bid` levels above. `1` is multiplied by `2000` for a total of `2000` WETH.
+**Client wants to swap `1` WETH into USDT.** Client looks up baseToken WETH and quoteToken USDT and uses the `bid` levels above. `1` is multiplied by `2000` for a total of `2000` WETH.
 
-**Client wants to swap WETH into `1000` USDT.**
-Client looks up baseToken USDT and quoteToken WETH and uses the `ask` levels above. `1000` is multiplied by `0.00055` for a total of `0.55` WETH.
+**Client wants to swap WETH into `1000` USDT.** Client looks up baseToken USDT and quoteToken WETH and uses the `ask` levels above. `1000` is multiplied by `0.00055` for a total of `0.55` WETH.
 
-**Client wants to swap USDT into `1` WETH.**
-Client looks up baseToken WETH and quoteToken USDT and uses the `ask` levels above. `1` is multiplied by `2001` for a total of `2001` WETH.
+**Client wants to swap USDT into `1` WETH.** Client looks up baseToken WETH and quoteToken USDT and uses the `ask` levels above. `1` is multiplied by `2001` for a total of `2001` WETH.
 
-# Example
+## Example
 
 **1. Client connects and subscribes to token pairs**
 
-```
+```text
 {
   "jsonrpc": "2.0",
   "method": "subscribe",
@@ -171,7 +165,7 @@ Client looks up baseToken WETH and quoteToken USDT and uses the `ask` levels abo
 
 **2. Server responds with current levels or formulas**
 
-```
+```text
 {
   "jsonrpc": "2.0",
   "id": 123,
@@ -191,7 +185,7 @@ Client looks up baseToken WETH and quoteToken USDT and uses the `ask` levels abo
 
 **3. Server updates continuously with new levels or formulas**
 
-```
+```text
 {
   "jsonrpc": "2.0",
   "method": "update",
@@ -206,7 +200,7 @@ Client looks up baseToken WETH and quoteToken USDT and uses the `ask` levels abo
 
 **4. Client uses most recent price to provide an order**
 
-```
+```text
 {
   "jsonrpc": "2.0",
   "id": "abc",
@@ -230,29 +224,29 @@ Client looks up baseToken WETH and quoteToken USDT and uses the `ask` levels abo
 
 Server assesses the price and may submit a `swap` transaction to the Light contract using the `params` from the `consider` method above. See [latest contract deployments](../contract-deployments.md)
 
-# Types
+## Types
 
-### `Levels`
+#### `Levels`
 
 Tuple with an amount of baseToken and respective price of quoteToken. Each level specifies the price up to that amount.
 
-```TypeScript
+```typescript
 [[ amount: string, price: string ], ... ]
 ```
 
-### `Formula`
+#### `Formula`
 
 String representing a mathematical expression to use for pricing.
 
-```TypeScript
+```typescript
 formula: string
 ```
 
-### `Order`
+#### `Order`
 
 Object with the parameters of a signed order to be filled.
 
-```TypeScript
+```typescript
 {
   nonce: string,        // Single use nonce
   expiry: string,       // Expiry in seconds
@@ -266,3 +260,4 @@ Object with the parameters of a signed order to be filled.
   s: string
 }
 ```
+

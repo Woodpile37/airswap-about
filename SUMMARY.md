@@ -1,20 +1,21 @@
-# Table of Contents
+# Table of contents
 
-- [Welcome](README.md)
-- [Deployments](contract-deployments.md)
-- [Architecture](architecture.md)
+* [Welcome](README.md)
+* [Deployments](contract-deployments.md)
+* [Architecture](architecture.md)
 
 ## Makers
 
-- [Running a Server](make-liquidity/run-a-server.md)
-- [Debugging with the CLI](make-liquidity/debug-with-cli.md)
-- [Adding to the Registry](make-liquidity/add-to-the-registry.md)
+* [Running a Server](makers/run-a-server.md)
+* [Debugging with the CLI](makers/debug-with-cli.md)
+* [Adding to the Registry](makers/add-to-the-registry.md)
 
 ## Protocols
 
-- [RFQ](protocols/light.md)
-- [Last Look](protocols/last-look.md)
+* [RFQ](protocols/light.md)
+* [Last Look](protocols/last-look.md)
 
 ## Tools
 
-- [Time Travel](tools/time-travel.md)
+* [Time Travel](tools/time-travel.md)
+

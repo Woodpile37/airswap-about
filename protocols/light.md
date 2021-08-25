@@ -1,18 +1,18 @@
+# RFQ
+
 In RFQ, Servers are **signers** and Clients are **senders**.
 
 1. Client sends the Server a JSON-RPC over HTTP request.
-
 2. Server responds with a signed order.
-
 3. Client may send the signed order to Ethereum for settlement.
 
-# Methods
+## Methods
 
-### `getSignerSideOrder`
+#### `getSignerSideOrder`
 
 Given a `senderAmount` the server returns a signed order with a `signerAmount`. The client is **selling** to the server.
 
-```TypeScript
+```typescript
 getSignerSideOrder(
   senderAmount: string, // Amount the sender would transfer
   signerToken: string,  // Token the signer would transfer
@@ -23,11 +23,11 @@ getSignerSideOrder(
 )
 ```
 
-### `getSenderSideOrder`
+#### `getSenderSideOrder`
 
 Given a `signerAmount` the server returns a signed order with a `senderAmount`. The client is **buying** from the server.
 
-```TypeScript
+```typescript
 getSenderSideOrder(
   signerAmount: string, // Amount the signer would transfer
   signerToken: string,  // Token the signer would transfer
@@ -38,28 +38,30 @@ getSenderSideOrder(
 )
 ```
 
-# Server
+## Server
 
-{% hint style="info" %} Only respond with a light order if the `swapContract` parameter in the request matches the [Light](../contract-deployments.md) contract address. Your client may otherwise be requesting a [Full](./full.md) order.{% endhint %}
+{% hint style="info" %}
+Only respond with a light order if the `swapContract` parameter in the request matches the [Light](../contract-deployments.md) contract address. Your client may otherwise be requesting a [Full](https://github.com/airswap/airswap-docs/tree/8791587ace86ddd2b8120a5a415b3d49742b183b/protocols/full.md) order.
+{% endhint %}
 
 A successful result containing a `LightOrder` has the following properties:
 
-| Property     | Type      | Description                                 |
-| :----------- | :-------- | :------------------------------------------ |
-| nonce        | `uint256` | Unique per signer and should be sequential. |
-| expiry       | `uint256` | Expiry in seconds since 1 January 1970.     |
-| signerWallet | `address` | Wallet that sets and signs terms.           |
-| signerToken  | `address` | Token that the signer will transfer.        |
-| signerAmount | `uint256` | Amount that the signer will transfer.       |
-| senderToken  | `address` | Token that the sender will transfer.        |
-| senderAmount | `uint256` | Amount that the sender will transfer.       |
-| v            | `uint8`   | `v` value of the ECDSA signature.           |
-| r            | `bytes32` | `r` value of the ECDSA signature.           |
-| s            | `bytes32` | `s` value of the ECDSA signature.           |
+| Property | Type | Description |
+| :--- | :--- | :--- |
+| nonce | `uint256` | Unique per signer and should be sequential. |
+| expiry | `uint256` | Expiry in seconds since 1 January 1970. |
+| signerWallet | `address` | Wallet that sets and signs terms. |
+| signerToken | `address` | Token that the signer will transfer. |
+| signerAmount | `uint256` | Amount that the signer will transfer. |
+| senderToken | `address` | Token that the sender will transfer. |
+| senderAmount | `uint256` | Amount that the sender will transfer. |
+| v | `uint8` | `v` value of the ECDSA signature. |
+| r | `bytes32` | `r` value of the ECDSA signature. |
+| s | `bytes32` | `s` value of the ECDSA signature. |
 
-## Example
+### Example
 
-```json
+```javascript
 HTTP/1.1 200 OK
 Access-Control-Allow-Origin: *
 Access-Control-Allow-Headers: *
@@ -85,11 +87,11 @@ Content-Type: application/json
 }
 ```
 
-## Signatures
+### Signatures
 
 **TypeScript**. Light signatures in TypeScript can be created using the `@airswap/utils` package.
 
-```TypeScript
+```typescript
 import { UnsignedLightOrder } from '@airswap/types'
 import { createLightOrder, createLightSignature } from '@airswap/utils'
 
@@ -170,35 +172,35 @@ data = {
 v, r, s = sign_typed_data(data, bytes.fromhex(SIGNER_KEY))
 ```
 
-## Protocol Fees
+### Protocol Fees
 
-**Required.** A protocol fee (in basis points) is hashed into the signature and verified during settlement. The value of this parameter must match its current value of `signerFee` on the [Light](../contract-deployments.md) contract. The amount is transferred from the `signerWallet` address upon settlement.
+**Required.** A protocol fee \(in basis points\) is hashed into the signature and verified during settlement. The value of this parameter must match its current value of `signerFee` on the [Light](../contract-deployments.md) contract. The amount is transferred from the `signerWallet` address upon settlement.
 
-## Authorized Signers
+### Authorized Signers
 
 **Optional.** One account may authorize another account to sign orders on its behalf. For example, a server might sign using an account that has been authorized by a contract wallet. To manage signer authorizations, use the following functions on the [Light](../contract-deployments.md) contract.
 
-```
+```text
 function authorize(address signer) external
 function revoke() external
 ```
 
-## EIP712
+### EIP712
 
 The following values are used for the EIP712Domain.
 
-| Param               | Type      | Value                                                |
-| :------------------ | :-------- | :--------------------------------------------------- |
-| `name`              | `bytes32` | `SWAP_LIGHT`                                         |
-| `version`           | `bytes32` | `3`                                                  |
-| `chainId`           | `uint256` | Ethereum Mainnet: `1`, Rinkeby: `4`                  |
+| Param | Type | Value |
+| :--- | :--- | :--- |
+| `name` | `bytes32` | `SWAP_LIGHT` |
+| `version` | `bytes32` | `3` |
+| `chainId` | `uint256` | Ethereum Mainnet: `1`, Rinkeby: `4` |
 | `verifyingContract` | `address` | [Light](../contract-deployments.md) contract address |
 
-# Client
+## Client
 
 To find Servers that support a token pair, Clients call the `getURLsForToken` function on the [Registry](https://docs.airswap.io/contract-deployments) contract for each token and then intersect the results. For example, if the resulting URLs for token A are `[maker1.com, maker2.com]` and for token B are `[maker2.com, maker3.com]` then the only server supporting swapping token A for B is `maker2.com`.
 
-```JavaScript
+```javascript
   function getURLsForToken(address token)
     external
     view
@@ -207,7 +209,7 @@ To find Servers that support a token pair, Clients call the `getURLsForToken` fu
 
 With Server URLs in hand, Clients call `getSignerSideOrder` or `getSenderSideOrder` as JSON-RPC over HTTP requests.
 
-```json
+```javascript
 POST / HTTP/1.1
 Content-Length: ...
 Content-Type: application/json
@@ -226,9 +228,9 @@ Content-Type: application/json
 }
 ```
 
-A response looks like the [example](#example) above. Requests can be made using curl for testing.
+A response looks like the [example](light.md#example) above. Requests can be made using curl for testing.
 
-```sh
+```bash
 curl -H 'Content-Type: application/json' \
      -d '{"jsonrpc":"2.0","id":"123","method":"getSignerSideOrder","params":{"signerToken":"0xdac17f958d2ee523a2206206994597c13d831ec7","senderWallet":"0x1FF808E34E4DF60326a3fc4c2b0F80748A3D60c2","senderToken":"0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2","senderAmount":"1000000000000000000","swapContract":"0xc549a5c701cb6e6cbc091007a80c089c49595468"}}' \
      http://localhost:3000/
@@ -236,7 +238,7 @@ curl -H 'Content-Type: application/json' \
 
 After requesting an order, parameters are submitted as an Ethereum transaction to the `swap` function on the [Light](https://docs.airswap.io/contract-deployments) contract, which emits a `Swap` event on success.
 
-```JavaScript
+```javascript
   function swap(
     uint256 nonce,
     uint256 expiry,
@@ -251,7 +253,7 @@ After requesting an order, parameters are submitted as an Ethereum transaction t
   ) external;
 ```
 
-```JavaScript
+```javascript
   event Swap(
     uint256 indexed nonce,
     uint256 timestamp,
@@ -265,13 +267,13 @@ After requesting an order, parameters are submitted as an Ethereum transaction t
   );
 ```
 
-# Types
+## Types
 
-### `Order`
+#### `Order`
 
 Object with the parameters of a firm order to be filled.
 
-```TypeScript
+```typescript
 {
   nonce: string,        // Single use nonce
   expiry: string,       // Expiry in seconds
@@ -285,3 +287,4 @@ Object with the parameters of a firm order to be filled.
   s: string
 }
 ```
+

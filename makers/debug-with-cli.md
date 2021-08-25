@@ -1,6 +1,8 @@
+# Debugging with the CLI
+
 Ensure the AirSwap CLI is installed.
 
-```
+```text
 $ yarn global add airswap
 ```
 
@@ -8,7 +10,7 @@ In development, set the chain to `4` with the `airswap chain` command. The follo
 
 Request a maximum quote to see what's available.
 
-```
+```text
 $ airswap quote:max
 AirSwap CLI 1.3.8 — https://support.airswap.io/
 
@@ -26,7 +28,7 @@ Selling up to 0.25 WETH for 100 DAI
 
 Request a quote for 0.1 WETH.
 
-```
+```text
 $ airswap quote:get
 AirSwap CLI 1.3.8 — https://support.airswap.io/
 
@@ -45,3 +47,4 @@ Price 0.0025 WETH/DAI (400 DAI/WETH)
 ```
 
 You can debug all methods using the `quote` and `order` [AirSwap CLI commands](https://github.com/airswap/airswap-cli#all-commands).
+

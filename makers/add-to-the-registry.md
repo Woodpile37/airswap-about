@@ -1,14 +1,16 @@
+# Adding to the Registry
+
 Ensure the AirSwap CLI is installed.
 
-```
+```text
 $ yarn global add airswap
 ```
 
-Once your [Server](./run-a-server.md) is up and running at a **public URL**, you're ready to add it to the Registry. First, ensure an account is set with the `airswap account:import` command. You can but are not required to use the same Ethereum account that your Server is using.
+Once your [Server](run-a-server.md) is up and running at a **public URL**, you're ready to add it to the Registry. First, ensure an account is set with the `airswap account:import` command. You can but are not required to use the same Ethereum account that your Server is using.
 
 Let's take a look at the available Registry commands.
 
-```
+```text
 $ airswap registry
 AirSwap CLI 1.6.0 — https://airswap.io/
 add and remove supported tokens
@@ -27,25 +29,25 @@ COMMANDS
 
 First run the following command to enable staking for your account.
 
-```
+```text
 $ airswap registry:enable
 ```
 
 Now run the following command to set your server url on the registry.
 
-```
+```text
 $ airswap registry:url
 ```
 
 Now run the following command to add tokens you support.
 
-```
+```text
 $ airswap registry:add
 ```
 
 To ensure your configuration is correct, you can query tokens that you support on the registry.
 
-```
+```text
 $ airswap registry:get
 AirSwap CLI 1.6.0 — https://airswap.io/
 
@@ -62,7 +64,7 @@ https://maker.example.com/
 
 Now that your Server is running and has been added to the Registry, your quotes will be returned among results of the `airswap order:best` command and aggregators like [MetaMask Swaps](https://medium.com/metamask/introducing-metamask-swaps-84318c643785).
 
-```
+```text
 $ airswap order:best
 AirSwap CLI 1.6.0 — https://airswap.io/
 
@@ -79,3 +81,4 @@ Quote from https://maker.example.com/
 ✨ Buy 0.1 WETH for 250 DAI
 Price 0.0004 WETH/DAI (2500 DAI/WETH)
 ```
+
