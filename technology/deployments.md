@@ -31,12 +31,12 @@
 
 ### Arbitrum (42161)
 
-- SwapERC20 — [`0x5E5A433cdfB14aB228c45E23251Ad83F7b1E3302`](https://snowtrace.io/address/0x5E5A433cdfB14aB228c45E23251Ad83F7b1E3302#code)
-- MakerRegistry — [`0xaBF694A434E0fE3b951409C01aa2db50Af4D2E3A`](https://snowtrace.io/address/0xaBF694A434E0fE3b951409C01aa2db50Af4D2E3A#code)
-- Wrapper — [`0xf54721F5C14CD6624b0cFeCa1EF9FF41C6E9bB2B`](https://snowtrace.io/address/0xf54721F5C14CD6624b0cFeCa1EF9FF41C6E9bB2B#code)
-- Pool — [`0xb1B586AfA8a2AaB42826Fb2Ab9896CD0c686d0F4`](https://snowtrace.io/address/0xb1B586AfA8a2AaB42826Fb2Ab9896CD0c686d0F4#code)
-- Staking — [`0x71070c5607358fc25E3B4aaf4FB0a580c190252a`](https://snowtrace.io/address/0x71070c5607358fc25E3B4aaf4FB0a580c190252a#code)
-- AST — [`0xa1135c2f2c7798d31459b5fdaef8613419be1008`](https://snowtrace.io/address/0xa1135c2f2c7798d31459b5fdaef8613419be1008)
+- SwapERC20 — [`0x5E5A433cdfB14aB228c45E23251Ad83F7b1E3302`](https://arbiscan.io/address/0x5E5A433cdfB14aB228c45E23251Ad83F7b1E3302#code)
+- MakerRegistry — [`0xaBF694A434E0fE3b951409C01aa2db50Af4D2E3A`](https://arbiscan.io/address/0xaBF694A434E0fE3b951409C01aa2db50Af4D2E3A#code)
+- Wrapper — [`0xf54721F5C14CD6624b0cFeCa1EF9FF41C6E9bB2B`](https://arbiscan.io/address/0xf54721F5C14CD6624b0cFeCa1EF9FF41C6E9bB2B#code)
+- Pool — [`0xb1B586AfA8a2AaB42826Fb2Ab9896CD0c686d0F4`](https://arbiscan.io/address/0xb1B586AfA8a2AaB42826Fb2Ab9896CD0c686d0F4#code)
+- Staking — [`0x71070c5607358fc25E3B4aaf4FB0a580c190252a`](https://arbiscan.io/address/0x71070c5607358fc25E3B4aaf4FB0a580c190252a#code)
+- AST — [`0xa1135c2f2c7798d31459b5fdaef8613419be1008`](https://arbiscan.io/address/0xa1135c2f2c7798d31459b5fdaef8613419be1008)
 
 ### Avalanche (43114)
 
