@@ -13,12 +13,18 @@
 
 ## Technology
 
-- Protocols
-  - [Swaps](technology/protocols.md)
-  - [Pricing](technology/protocols.md)
-  - [Indexing](technology/protocols.md)
-- [Makers](technology/makers.md)
-- [Discovery](technology/discovery.md)
-- [Formats](technology/orders.md)
-- [Glossary](technology/glossary.md)
+- [Basic Examples](technology/examples.md)
 - [Deployments](technology/deployments.md)
+- [Protocols](technology/protocols.md)
+  - [Request-for-Quote](technology/protocols/swaps.md)
+  - [Last-Look](technology/protocols/swaps.md)
+  - [Pricing](technology/protocols/pricing.md)
+  - [Indexing](technology/protocols/indexing.md)
+- [Transports](technology/transports.md)
+  - [HTTPS](technology/transports/https.md)
+  - [WebSocket](technology/transports/websocket.md)
+  - [PubSub](technology/transports/pubsub.md)
+- [Finding Counterparties](technology/discovery.md)
+- [Orders and Signatures](technology/orders.md)
+- [Handling Errors](technology/errors.md)
+- [Glossary](technology/glossary.md)
